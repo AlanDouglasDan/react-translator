@@ -22,6 +22,7 @@
   height: 50vh;
   padding: 10px;
   resize: none;
+  font-size: 110%;
 }
 
 .container{
@@ -42,4 +43,9 @@
 
 .btn-container{
   display: block !important;
+}
+
+#textAreaExample2{
+  color: rebeccapurple;
+  font-weight: 500;
 }

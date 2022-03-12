@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9c75a3a6-1846-4683-bb12-5de7a6005516/deploy-status)](https://app.netlify.com/sites/alans-translator/deploys)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

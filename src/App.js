@@ -1,37 +1,45 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
+import { Spinner } from 'react-bootstrap';
+import Header from './Header';
 import './App.css';
 
 function App() {
 
-  // const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [text, setText] = useState('');
+  const [beforeText, setBeforeText] = useState('');
+  const [beforeSelector, setBeforeSelector] = useState('');
+  const [toSelector, setToSelector] = useState('');
 
-  const handleSubmit = async ()=> {
-    const textarea = document.getElementById('textAreaExample1').value;
-    const fromSelector = document.getElementById('fromSelector').value;
-    const toSelector = document.getElementById('toSelector').value;
+  const handleSubmit = ()=> {
+    setLoading(true);
     const body = {
-      'text': textarea,
-      'from': fromSelector,
+      'text': beforeText,
+      'from': beforeSelector,
       'to': toSelector
     }
-    const response = await axios.post('https://alan-translator-api.herokuapp.com/translate', body);
-    const value = response.data.text;
-    document.getElementById('textAreaExample2').innerHTML = value;
-    console.log(response);
+    axios.post('https://alan-translator-api.herokuapp.com/translate', body)
+      .then((result) => {        
+        const value = result.data.text;
+        setText(value);
+        console.log(result);
+        setLoading(false);
+      });
   }
 
   return (
     <div className="App">
       <header className="App-header">
-        <div className="jumbotron">Alan's language translator</div>
+        { loading ? (<Spinner animation="border" className="_spinner" />) : '' }
+        <Header />
 
         <div className='container'>
           <div className='col-xs-6'>
             <div className="form-outline">
-              <textarea className="form-control special_textarea" id="textAreaExample1" rows="4" placeholder='Translate from'></textarea>
-              <select className="form-select" aria-label="Default select example" id="fromSelector">
+              <textarea className="form-control special_textarea" id="textAreaExample1" rows="4" placeholder='Translate from' onChange={(e) => setBeforeText(e.target.value)}></textarea>
+              <select className="form-select" aria-label="Default select example" id="fromSelector" onChange={(e) => setBeforeSelector(e.target.value)}>
                 <option>Select language</option>
                 <option value="en">English</option>
                 <option value="fr">French</option>
@@ -46,8 +54,8 @@ function App() {
 
           <div className='col-xs-6'>
             <div className="form-outline">
-              <textarea className="form-control special_textarea" id="textAreaExample2" rows="4" placeholder='Translate to'></textarea>
-              <select className="form-select" aria-label="Default select example" id="toSelector">
+              <textarea className="form-control special_textarea" id="textAreaExample2" rows="4" placeholder='Translate to' value={text} readOnly></textarea>
+              <select className="form-select" aria-label="Default select example" id="toSelector" onChange={(e) => setToSelector(e.target.value)}>
                 <option>Select language</option>
                 <option value="en">English</option>
                 <option value="fr">French</option>
